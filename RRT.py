@@ -131,7 +131,7 @@ if __name__=='__main__':
 	    else: color_map.append('darksalmon')      
 	nx.draw(G,node_color = color_map,with_labels = True)
 	#create new directory
-	output_dir = "/homesim/danielle/resultados"
+	output_dir = "/homesim/danielle/output"
 	plt.savefig(output_dir+'/fig'+str(i)+'.png')
 	plt.close()
 
