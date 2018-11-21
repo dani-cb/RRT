@@ -107,33 +107,32 @@ def only_unique(all_roots):
 
 ###########################################################################################################
 if __name__=='__main__':
-	n = 10
-	size = 10 #demora 3' 15"
-	#size = 1000 #demora 2h
+	np.random.seed(int(sys.argv[1]))
+	#size = 10 #demora 3' 15"
+	size = 1000 #demora 2h
 	all_roots = [-1]*n #root of every iteration  
 	repeat = [0]*size #how many time the same root apears in the simulation
 	frequency = [0]*size #repeat / n
 	log_frequency = [0]*size
 	freq = [0]*size
 
-	for i in range(0,n):
-		G = random_tree(size)
-		root = find_root(G)
-		freq[root] += 1 		
-		all_roots[i] = root
-		uniques = only_unique(all_roots)
-		color_map = []
-		for node in G:
-		    if node == root:
-		        color_map.append('firebrick')
-		    else: color_map.append('darksalmon')      
-		nx.draw(G,node_color = color_map,with_labels = True)
-		#create new directory
-		#output_dir = "C:/Users/dani_/OneDrive/Área de Trabalho/tese/script_python/teste_100"
-		#output_dir = "C:/Users/dani_/OneDrive/Área de Trabalho/tese/script_python/teste_1000"
-		output_dir = "C:/Users/dani_/OneDrive/Área de Trabalho/tese/script_python"
-		plt.savefig(output_dir+'/fig'+str(i)+'.png')
-		plt.close()
+	G = random_tree(size)
+	root = find_root(G)
+	freq[root] += 1 		
+	all_roots[i] = root
+	uniques = only_unique(all_roots)
+	color_map = []
+	for node in G:
+	    if node == root:
+		color_map.append('firebrick')
+	    else: color_map.append('darksalmon')      
+	nx.draw(G,node_color = color_map,with_labels = True)
+	#create new directory
+	#output_dir = "C:/Users/dani_/OneDrive/Área de Trabalho/tese/script_python/teste_100"
+	#output_dir = "C:/Users/dani_/OneDrive/Área de Trabalho/tese/script_python/teste_1000"
+	output_dir = "C:/Users/dani_/OneDrive/Área de Trabalho/tese/script_python"
+	plt.savefig(output_dir+'/fig'+str(i)+'.png')
+	plt.close()
 
 
 	for j in range(0,size):
