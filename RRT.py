@@ -114,27 +114,26 @@ if __name__=='__main__':
 	hit = 0
 	misses = 0
 	
-	for i in range(0,n):
-		G = random_tree(size)
-		root = find_root(G)
-		freq[root] += 1 		
-		all_roots[i] = root
-		bfs_root = dist(G,root)
-		k = 0
-		while parent_bfs_root[k] != -1:
-			k += 1
-			distance[i] += 1 
-		print(parent_bfs_root,'parents list to calculate the distance between the root and node 0')
-		color_map = []
-		for node in G:
-		    if node == root:
-		        color_map.append('firebrick')
-		    else: color_map.append('darksalmon')      
-		nx.draw(G,node_color = color_map,with_labels = True)
-		#create new directory
-		output_dir = "/homesim/danielle/resultados"
-		plt.savefig(output_dir+'/fig'+str(i)+'.png')
-		plt.close()
+	G = random_tree(size)
+	root = find_root(G)
+	freq[root] += 1 		
+	all_roots[i] = root
+	bfs_root = dist(G,root)
+	k = 0
+	while parent_bfs_root[k] != -1:
+		k += 1
+		distance[i] += 1 
+	print(parent_bfs_root,'parents list to calculate the distance between the root and node 0')
+	color_map = []
+	for node in G:
+	    if node == root:
+		color_map.append('firebrick')
+	    else: color_map.append('darksalmon')      
+	nx.draw(G,node_color = color_map,with_labels = True)
+	#create new directory
+	output_dir = "/homesim/danielle/resultados"
+	plt.savefig(output_dir+'/fig'+str(i)+'.png')
+	plt.close()
 
 	for j in range(0,size):
 		frequency[j] = freq[j]/n
