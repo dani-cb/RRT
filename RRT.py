@@ -97,6 +97,20 @@ def find_root(G):
 
 	return root
 ###########################################################################################################
+#finding the root
+def dist(G,root):
+	global parent_bfs_root 
+	#BFS
+	bfs_root = nx.bfs_edges(G,root)
+	#parent's list
+	parent_bfs_root = [0]*len(nodes)
+	parent_bfs_root[root] = -1
+	for i in bfs_root:
+		parent_bfs_root[i[1]] = i[0]
+			
+	return parent_bfs_root
+
+###########################################################################################################
 def only_unique(all_roots):
     l = []
     for i in all_roots:
@@ -108,31 +122,37 @@ def only_unique(all_roots):
 ###########################################################################################################
 if __name__=='__main__':
 	np.random.seed(int(sys.argv[1]))
-	#size = 10 #demora 3' 15"
-	size = 1000 #demora 2h
+	size = 1000 
 	all_roots = [-1]*n #root of every iteration  
 	repeat = [0]*size #how many time the same root apears in the simulation
 	frequency = [0]*size #repeat / n
 	log_frequency = [0]*size
 	freq = [0]*size
-
-	G = random_tree(size)
-	root = find_root(G)
-	freq[root] += 1 		
-	all_roots[i] = root
-	uniques = only_unique(all_roots)
-	color_map = []
-	for node in G:
-	    if node == root:
-		color_map.append('firebrick')
-	    else: color_map.append('darksalmon')      
-	nx.draw(G,node_color = color_map,with_labels = True)
-	#create new directory
-	#output_dir = "C:/Users/dani_/OneDrive/Área de Trabalho/tese/script_python/teste_100"
-	#output_dir = "C:/Users/dani_/OneDrive/Área de Trabalho/tese/script_python/teste_1000"
-	output_dir = "C:/Users/dani_/OneDrive/Área de Trabalho/tese/script_python"
-	plt.savefig(output_dir+'/fig'+str(i)+'.png')
-	plt.close()
+	distance = [0]*n
+	hit = 0
+	misses = 0
+	
+	for i in range(0,n):
+		G = random_tree(size)
+		root = find_root(G)
+		freq[root] += 1 		
+		all_roots[i] = root
+		bfs_root = dist(G,root)
+		k = 0
+		while parent_bfs_root[k] != -1:
+			k += 1
+			distance[i] += 1 
+		print(parent_bfs_root,'parents list to calculate the distance between the root and node 0')
+		color_map = []
+		for node in G:
+		    if node == root:
+		        color_map.append('firebrick')
+		    else: color_map.append('darksalmon')      
+		nx.draw(G,node_color = color_map,with_labels = True)
+		#create new directory
+		output_dir = "C:/Users/dani_/OneDrive/Área de Trabalho/tese/script_python"
+		plt.savefig(output_dir+'/fig'+str(i)+'.png')
+		plt.close()
 
 
 	for j in range(0,size):
@@ -144,13 +164,23 @@ if __name__=='__main__':
 			log_frequency[k] = 0
 		else:	
 			log_frequency[k] = math.log10(frequency[k])
+ 	
+	for d in distance:
+		if d == 0:
+			hit += 1
+		else:
+			misses += 1
+
+	print('hits: ', hit)
+	print('misses: ', misses)
+	print('distance: ', distance)
+	print('frequency: ', frequency)
+	print('log-frequency: ', log_frequency)
 
 	#plots
 	plt.plot(frequency)
 	plt.xlabel('nodes')
 	plt.ylabel('frequency')
-	#output_dir = "C:/Users/dani_/OneDrive/Área de Trabalho/tese/script_python/teste_100"
-	#output_dir = "C:/Users/dani_/OneDrive/Área de Trabalho/tese/script_python/teste_1000"
 	plt.savefig(output_dir+'/frequency'+'.png')
 	plt.close()
 
@@ -158,4 +188,9 @@ if __name__=='__main__':
 	plt.xlabel('nodes')
 	plt.ylabel('log-frequency')
 	plt.savefig(output_dir+'/log_frequency'+'.png')
-	
+	plt.close()
+
+	plt.plot(distance)
+	plt.xlabel('iteration')
+	plt.ylabel('distance to node 0')
+	plt.savefig(output_dir+'/distance'+'.png')
