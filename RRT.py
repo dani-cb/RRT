@@ -13,21 +13,14 @@ import matplotlib.pyplot as plt
 #generating a random tree
 def random_tree (size):
 
-	#0) Defina n, o número de vértices na árvore
-	#size = int(input('size of the subtree: '))
-	#print()
 	global G
 	global nodes
-	#1) Inicialize um grafo com um vértice, com rótulo 1.
 	G = nx.Graph()
 	G.add_node(0)
 
-	#2) Para i=1 até n-1 faça
 	for i in range(0,size-1):
-		#3)   Escolha um vértice v ao acaso, de forma uniforme entre [1, k]
 		node = math.trunc(np.random.uniform(0,i+1))
 		#print(node)
-		#4)   Crie um novo vértice com rótulo k+1 e conecte no vértice v escolhido, aumentando o grafo
 		G.add_node(i+1)
 		G.add_edge(node,i+1)
 
@@ -42,15 +35,10 @@ def random_tree (size):
 def find_root(G):
 	global root
 
-	#1) Escolha um vértice qualquer da árvore e chame de raiz.
 	root = math.trunc(np.random.uniform(0,len(nodes)))
 	#print('the initial root is: ', root)
-
-	#2) Execute uma BFS a partir deste vértice para definir uma orientação (quem é pai de quem).
 	#BFS
 	bfs_result = list(nx.bfs_edges(G,root))
-
-	#3) Inicie o processo de contagem do tamanho das subarvores, conforme o algoritmo que você já implementou (começando com as folhas e subindo).
 	#parent's list
 	parent = [0]*len(nodes)
 	parent[root] = -1
@@ -66,10 +54,6 @@ def find_root(G):
 
 	#leaf list
 	leaf = [i for i, x in enumerate(child) if x == 0]
-
-	#4) Pare o algoritmo de contagem ao encontrar um vértice cujo tamanho da subarvore enraizada nele (em relação ao vértice raiz escolhido no passo 1) 
-	#seja maior ou igual a n/2, onde n é o número de vértices da árvore.
-
 	#calculating the size of the subtree
 	size = [0]*len(nodes)
 	size[root] +=1
@@ -92,9 +76,7 @@ def find_root(G):
 
 			leaf = new_leaf
 
-	#5) Retorne o vértice acima, como sendo a raiz da epidemia.
 	#print('the root that has as the size of the tree the half of the vertices is', root)
-
 	return root
 ###########################################################################################################
 #finding the root
@@ -150,14 +132,12 @@ if __name__=='__main__':
 		    else: color_map.append('darksalmon')      
 		nx.draw(G,node_color = color_map,with_labels = True)
 		#create new directory
-		output_dir = "C:/Users/dani_/OneDrive/Área de Trabalho/tese/script_python"
+		output_dir = "/homesim/danielle/resultados"
 		plt.savefig(output_dir+'/fig'+str(i)+'.png')
 		plt.close()
 
-
 	for j in range(0,size):
 		frequency[j] = freq[j]/n
-
 
 	for k in range(0,size):
 		if frequency[k] == 0:
