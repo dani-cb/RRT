@@ -104,6 +104,7 @@ def only_unique(all_roots):
 ###########################################################################################################
 if __name__=='__main__':
 	np.random.seed(int(sys.argv[1]))
+	n = 1000000
 	size = 1000 
 	all_roots = [-1]*n #root of every iteration  
 	repeat = [0]*size #how many time the same root apears in the simulation
@@ -114,16 +115,17 @@ if __name__=='__main__':
 	hit = 0
 	misses = 0
 	
-	G = random_tree(size)
-	root = find_root(G)
-	freq[root] += 1 		
-	all_roots[i] = root
-	bfs_root = dist(G,root)
-	k = 0
-	while parent_bfs_root[k] != -1:
-		k += 1
-		distance[i] += 1 
-	print(parent_bfs_root,'parents list to calculate the distance between the root and node 0')
+	for i in range(0,n/2)
+		G = random_tree(size)
+		root = find_root(G)
+		freq[root] += 1 		
+		all_roots[i] = root
+		bfs_root = dist(G,root)
+		k = 0
+		while parent_bfs_root[k] != -1:
+			k += 1
+			distance[i] += 1 
+		print(parent_bfs_root,'parents list to calculate the distance between the root and node 0')
 	color_map = []
 	for node in G:
 	    if node == root:
